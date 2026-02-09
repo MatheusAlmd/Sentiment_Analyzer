@@ -83,7 +83,7 @@ if uploaded_file is not None:
 
         st.divider()
 
-        # --- O MÁGICO GERADOR DE EXCEL COLORIDO ---
+        # --- GERADOR DE EXCEL COLORIDO ---
         buffer = io.BytesIO()
 
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:

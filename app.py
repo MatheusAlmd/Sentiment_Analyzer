@@ -33,10 +33,23 @@ st.title("🤖 Sentiment Analyzer AI")
 uploaded_file = st.file_uploader("Upload seu arquivo CSV", type=["csv"])
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
-    st.success("Arquivo carregado!")
-    st.subheader("Prévia dos Dados")
-    st.dataframe(df)
+    try:
+        uploaded_file.seek(0)
+        # Tenta ler o arquivo (sep=None faz o Python descobrir se é , ou ;)
+        df = pd.read_csv(uploaded_file, sep=None, engine='python')
+        
+        # --- SUCESSO ---
+        # Se leu certo, mostra a métrica e a tabela
+        st.subheader("Prévia de dados")
+        st.dataframe(df)
+
+    except Exception as e:
+        # --- ERRO ---
+        # Se der erro mostra o aviso 
+        st.error("❌ Não conseguimos ler este arquivo.")
+        st.warning("O arquivo pode estar mal formatado. Veja o erro abaixo:") 
+        st.info("Dica: Tente abrir o arquivo no Excel e salvar novamente como CSV (separado por vírgulas).")
+        st.stop() # Para tudo, Não deixa o código continuar.
 
     st.divider()
 
